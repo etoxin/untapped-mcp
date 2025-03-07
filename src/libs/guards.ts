@@ -1,4 +1,4 @@
-import { UntappdApiErrorResponse } from "./types.js";
+import { UntappdApiErrorResponse } from "../types/untappedApi.js";
 
 export function isUntappdApiError(
   value: unknown,
