@@ -16,7 +16,7 @@
   "homepage": "https://github.com/etoxin/untapped-mcp#readme",
   "type": "module",
   "bin": {
-    "untapped": "./build/index.js" 
+    "untapped": "./build/index.js"
   },
   "files": [
     "build"
