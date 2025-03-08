@@ -253,3 +253,87 @@ export function formatUntappdBeerSearchResult(result) {
 export function formatUntappdBeerInfoResult(result) {
     return formatUntappdBeerInfo(result.response.beer);
 }
+export function formatUntappdBreweryInfoResult(result) {
+    const breweryInfo = result.response.brewery;
+    return [
+        `Brewery Information`,
+        `---`,
+        `brewery_id: ${breweryInfo.brewery_id}`,
+        `brewery_name: ${breweryInfo.brewery_name}`,
+        `country_name: ${breweryInfo.country_name}`,
+        `brewery_in_production: ${breweryInfo.brewery_in_production}`,
+        `is_independent: ${breweryInfo.is_independent}`,
+        ...(breweryInfo.brewery_slug
+            ? [`brewery_slug: ${breweryInfo.brewery_slug}`]
+            : []),
+        ...(breweryInfo.brewery_type
+            ? [`brewery_type: ${breweryInfo.brewery_type}`]
+            : []),
+        ...(breweryInfo.brewery_type_id
+            ? [`brewery_type_id: ${breweryInfo.brewery_type_id}`]
+            : []),
+        ...(breweryInfo.brewery_description
+            ? [`brewery_description: ${breweryInfo.brewery_description}`]
+            : []),
+        `beer_count: ${breweryInfo.beer_count}`,
+        `Contact Information`,
+        `---`,
+        ...(breweryInfo.contact?.url
+            ? [`website: ${breweryInfo.contact.url}`]
+            : []),
+        `Location`,
+        `---`,
+        ...(breweryInfo.location?.venue_address
+            ? [`address: ${breweryInfo.location.venue_address}`]
+            : []),
+        ...(breweryInfo.location?.brewery_city
+            ? [`city: ${breweryInfo.location.brewery_city}`]
+            : []),
+        ...(breweryInfo.location?.brewery_state
+            ? [`state: ${breweryInfo.location.brewery_state}`]
+            : []),
+        ...(breweryInfo.location?.lat !== undefined
+            ? [`latitude: ${breweryInfo.location.lat}`]
+            : []),
+        ...(breweryInfo.location?.lng !== undefined
+            ? [`longitude: ${breweryInfo.location.lng}`]
+            : []),
+        `Rating`,
+        `---`,
+        `rating_count: ${breweryInfo.rating.count}`,
+        `rating_score: ${breweryInfo.rating.rating_score}`,
+        `Statistics`,
+        `---`,
+        `total_check_ins: ${breweryInfo.stats.total_count}`,
+        `unique_users: ${breweryInfo.stats.unique_count}`,
+        `monthly_check_ins: ${breweryInfo.stats.monthly_count}`,
+        `weekly_check_ins: ${breweryInfo.stats.weekly_count}`,
+        `user_count: ${breweryInfo.stats.user_count}`,
+        `age_on_service: ${breweryInfo.stats.age_on_service}`,
+        `Beer List`,
+        `---`,
+        `is_super: ${breweryInfo.beer_list.is_super}`,
+        `sort: ${breweryInfo.beer_list.sort || "default"}`,
+        `filter: ${breweryInfo.beer_list.filter}`,
+        `beer_count: ${breweryInfo.beer_list.beer_count}`,
+        `displayed_beers: ${breweryInfo.beer_list.count}`,
+        `Brewery Beers`,
+        `---`,
+        ...(breweryInfo.beer_list.count > 0
+            ? Array.isArray(breweryInfo.beer_list.items)
+                ? breweryInfo.beer_list.items.map((beer) => [
+                    `bid: ${beer.beer.bid}`,
+                    `beer_name: ${beer.beer.beer_name}`,
+                    `beer_style: ${beer.beer.beer_style}`,
+                    `beer_abv: ${beer.beer.beer_abv}`,
+                    `beer_ibu: ${beer.beer.beer_ibu}`,
+                    `beer_description: ${beer.beer.beer_description}`,
+                    `rating_score: ${beer.beer.rating_score}`,
+                    `rating_count: ${beer.beer.rating_count}`,
+                    "----",
+                ])
+                : ""
+            : [`No beers available to display`]),
+        `+++ End`,
+    ].join("\n");
+}

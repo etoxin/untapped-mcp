@@ -5,10 +5,12 @@ import { getBeerSearch } from "./api/getBeerSearch.js";
 import {
   formatUntappdBeerInfoResult,
   formatUntappdBeerSearchResult,
+  formatUntappdBreweryInfoResult,
 } from "./libs/format.js";
 
 import dotenv from "dotenv";
 import { GetBeerInfo } from "./api/getBeerInfo.js";
+import { GetBreweryInfo } from "./api/getBreweryInfo.js";
 dotenv.config();
 
 export const config = {
@@ -69,7 +71,6 @@ server.tool(
   },
 );
 
-// Register untapped tools
 server.tool(
   "Beer_Info",
   "Get detailed info of a beer.",
@@ -112,6 +113,55 @@ server.tool(
         {
           type: "text",
           text: formattedBeerInfoData,
+        },
+      ],
+    };
+  },
+);
+
+server.tool(
+  "Brewery_Info",
+  "Get detailed info of a brewery.",
+  {
+    brewery_id: z
+      .string()
+      .describe(
+        "brewery_id (string): The 'brewery_id' can be retrieved from a beer.",
+      ),
+  },
+  async ({ brewery_id }) => {
+    const breweryInfoData = await GetBreweryInfo(brewery_id);
+
+    if (!breweryInfoData) {
+      return {
+        content: [
+          {
+            type: "text",
+            text: "Failed to retrieve untapped brewery info data.",
+          },
+        ],
+      };
+    }
+
+    if (typeof breweryInfoData === "string") {
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Failed to retrieve untapped brewery info data: ${breweryInfoData}`,
+          },
+        ],
+      };
+    }
+
+    const formattedBreweryInfoData =
+      formatUntappdBreweryInfoResult(breweryInfoData);
+
+    return {
+      content: [
+        {
+          type: "text",
+          text: formattedBreweryInfoData,
         },
       ],
     };

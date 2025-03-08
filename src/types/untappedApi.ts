@@ -265,6 +265,83 @@ export interface UntappdBeerSearchResponse {
   breweries: UntappdBrewerySection;
 }
 
+// Additional Untappd types for brewery information
+
+// Claimed status information for brewery
+interface UntappdClaimedStatus {
+  is_claimed: boolean;
+  claimed_slug: string;
+  follow_status: boolean;
+  follower_count: number;
+  uid: number;
+  mute_status: string;
+}
+
+// Brewery rating information
+interface UntappdBreweryRating {
+  count: number;
+  rating_score: number;
+}
+
+// Extended brewery statistics
+interface UntappdBreweryStats {
+  total_count: number;
+  unique_count: number;
+  monthly_count: number;
+  weekly_count: number;
+  user_count: number;
+  age_on_service: number;
+}
+
+// Brewery owners section
+interface UntappdBreweryOwners {
+  count: number;
+  items: any[]; // Could be more specific if needed
+}
+
+// Beer list item in brewery response
+interface UntappdBeerListItem {
+  has_had: boolean;
+  total_count: number;
+  beer: UntappdBeer;
+  brewery: UntappdBrewery;
+  friends: any[]; // Could be more specific if needed
+}
+
+// Beer list section in brewery response
+interface UntappdBeerList {
+  is_super: boolean;
+  sort: string;
+  filter: string;
+  count: number;
+  items: UntappdBeerListItem | UntappdBeerListItem[]; // API inconsistently returns object or array
+  beer_count: number;
+}
+
+// Extended brewery information
+export interface UntappdBreweryInfo extends UntappdBrewery {
+  brewery_in_production: number;
+  is_independent: number;
+  claimed_status: UntappdClaimedStatus;
+  brewery_type: string;
+  brewery_type_id: number;
+  brewery_description: string;
+  rating: UntappdBreweryRating;
+  stats: UntappdBreweryStats;
+  owners: UntappdBreweryOwners;
+  media: UntappdMedia;
+  beer_list: UntappdBeerList;
+}
+
+// Complete brewery info response
+export interface UntappdBreweryInfoResponse {
+  brewery: UntappdBreweryInfo;
+}
+
+// Complete typed response for brewery info
+export type UntappdBreweryInfoResult =
+  UntappdApiResponse<UntappdBreweryInfoResponse>;
+
 // Complete typed response for beer search
 export type UntappdBeerSearchResult =
   UntappdApiResponse<UntappdBeerSearchResponse>;
