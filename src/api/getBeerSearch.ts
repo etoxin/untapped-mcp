@@ -5,6 +5,13 @@ import { UntappdBeerSearchResult } from "../types/untappedApi.js";
 const { UNTAPPED_API_CLIENT_ID, UNTAPPED_API_CLIENT_SECRET } = process.env;
 
 export async function getBeerSearch(query: string) {
+  if (!UNTAPPED_API_CLIENT_ID) {
+    throw new Error("UNTAPPED_API_CLIENT_ID is required");
+  }
+
+  if (!UNTAPPED_API_CLIENT_SECRET) {
+    throw new Error("UNTAPPED_API_CLIENT_SECRET is required");
+  }
   try {
     const response = await axios.get<UntappdBeerSearchResult>(
       `${UNTAPPED_API_BASE}${UNTAPPED_API_SEARCH}`,
@@ -20,7 +27,9 @@ export async function getBeerSearch(query: string) {
     return response.data;
   } catch (e: unknown) {
     if (axios.isAxiosError(e) && e.response) {
-      throw new Error(`HTTP error! status: ${e.response.status}: ${e.response.statusText}`);
+      throw new Error(
+        `HTTP error! status: ${e.response.status}: ${JSON.stringify(e)}`,
+      );
     }
     if (e instanceof Error) {
       return e.message;
