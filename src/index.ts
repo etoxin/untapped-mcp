@@ -15,19 +15,28 @@ server.tool(
   "beer-search",
   "Search beers on untapped",
   {
-    beer: z
-      .string()
-      .describe("The name of the beer you want to search"),
+    beer: z.string().describe("The name of the beer you want to search"),
   },
   async ({ beer }) => {
     const beersData = await getBeerSearch(beer);
 
-    if (!beersData || typeof beersData === "string") {
+    if (!beersData) {
       return {
         content: [
           {
             type: "text",
-            text: "Failed to retrieve untapped beer data",
+            text: "Failed to retrieve untapped beer data.",
+          },
+        ],
+      };
+    }
+
+    if (typeof beersData === "string") {
+      return {
+        content: [
+          {
+            type: "text",
+            text: `Failed to retrieve untapped beer data: ${beersData}`,
           },
         ],
       };
