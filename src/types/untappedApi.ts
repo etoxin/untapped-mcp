@@ -193,7 +193,7 @@ interface UntappdBeerInfo extends UntappdBeer {
 }
 
 // Beer item in search results
-interface UntappdBeerItem {
+export interface UntappdBeerItem {
   checkin_count: number;
   have_had: boolean;
   your_count: number;
