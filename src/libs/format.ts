@@ -5,12 +5,15 @@ import {
 
 export function formatUntappdBeerItem(beerItem: UntappdBeerItem): string {
   return [
-    // Basic beer item properties
+    "+++ start of UntappdBeerItem +++",
+    `Basic beer item properties`,
+    `---`,
     `checkin_count: ${beerItem.checkin_count}`,
     `have_had: ${beerItem.have_had}`,
     `your_count: ${beerItem.your_count}`,
 
-    // Beer properties
+    `Beer properties`,
+    `---`,
     `bid: ${beerItem.beer.bid}`,
     `beer_name: ${beerItem.beer.beer_name}`,
     `beer_label: ${beerItem.beer.beer_label}`,
@@ -22,7 +25,8 @@ export function formatUntappdBeerItem(beerItem: UntappdBeerItem): string {
     `auth_rating: ${beerItem.beer.auth_rating}`,
     `wish_list: ${beerItem.beer.wish_list}`,
 
-    // Optional beer properties
+    `Optional beer properties`,
+    `---`,
     ...(beerItem.beer.in_production !== undefined
       ? [`in_production: ${beerItem.beer.in_production}`]
       : []),
@@ -54,13 +58,15 @@ export function formatUntappdBeerItem(beerItem: UntappdBeerItem): string {
       ? [`rating_score: ${beerItem.beer.rating_score}`]
       : []),
 
-    // Brewery properties
+    `Brewery properties`,
+    `---`,
     `brewery_id: ${beerItem.brewery.brewery_id}`,
     `brewery_name: ${beerItem.brewery.brewery_name}`,
     `brewery_label: ${beerItem.brewery.brewery_label}`,
     `country_name: ${beerItem.brewery.country_name}`,
 
-    // Optional brewery properties
+    `Optional brewery properties`,
+    `---`,
     ...(beerItem.brewery.brewery_slug
       ? [`brewery_slug: ${beerItem.brewery.brewery_slug}`]
       : []),
@@ -71,7 +77,8 @@ export function formatUntappdBeerItem(beerItem: UntappdBeerItem): string {
       ? [`brewery_beer_count: ${beerItem.brewery.beer_count}`]
       : []),
 
-    // Brewery contact information
+    `Brewery contact information`,
+    `---`,
     ...(beerItem.brewery.contact?.twitter
       ? [`brewery_twitter: ${beerItem.brewery.contact.twitter}`]
       : []),
@@ -85,7 +92,8 @@ export function formatUntappdBeerItem(beerItem: UntappdBeerItem): string {
       ? [`brewery_url: ${beerItem.brewery.contact.url}`]
       : []),
 
-    // Brewery location
+    `Brewery location`,
+    `---`,
     ...(beerItem.brewery.location?.brewery_city
       ? [`brewery_city: ${beerItem.brewery.location.brewery_city}`]
       : []),
@@ -107,7 +115,7 @@ export function formatUntappdBeerItem(beerItem: UntappdBeerItem): string {
     ...(beerItem.brewery.location?.lng !== undefined
       ? [`longitude: ${beerItem.brewery.location.lng}`]
       : []),
-    "---------------------------------------------------",
+    "+++ End of UntappdBeerItem +++",
   ].join("\n");
 }
 
