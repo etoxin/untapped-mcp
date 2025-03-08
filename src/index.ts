@@ -17,7 +17,6 @@ server.tool(
   {
     beer: z
       .string()
-      .length(2)
       .describe("The name of the beer you want to search"),
   },
   async ({ beer }) => {

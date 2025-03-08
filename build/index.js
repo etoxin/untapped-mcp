@@ -12,7 +12,6 @@ const server = new McpServer({
 server.tool("beer-search", "Search beers on untapped", {
     beer: z
         .string()
-        .length(2)
         .describe("The name of the beer you want to search"),
 }, async ({ beer }) => {
     const beersData = await getBeerSearch(beer);
