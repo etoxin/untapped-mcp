@@ -20,7 +20,7 @@ export async function getBeerSearch(query: string) {
     return response.data;
   } catch (e: unknown) {
     if (axios.isAxiosError(e) && e.response) {
-      throw new Error(`HTTP error! status: ${e.response.status}`);
+      throw new Error(`HTTP error! status: ${e.response.status}: ${e.response.statusText}`);
     }
     if (e instanceof Error) {
       return e.message;
