@@ -2,24 +2,17 @@ import axios from "axios";
 import { UNTAPPED_API_SEARCH, UNTAPPED_API_BASE } from "../constants.js";
 import { isUntappdApiError } from "../libs/guards.js";
 import { UntappdBeerSearchResult } from "../types/untappedApi.js";
-const { UNTAPPED_API_CLIENT_ID, UNTAPPED_API_CLIENT_SECRET } = process.env;
+import { config } from "../config.js";
 
 export async function getBeerSearch(query: string) {
-  if (!UNTAPPED_API_CLIENT_ID) {
-    throw new Error("UNTAPPED_API_CLIENT_ID is required");
-  }
-
-  if (!UNTAPPED_API_CLIENT_SECRET) {
-    throw new Error("UNTAPPED_API_CLIENT_SECRET is required");
-  }
   try {
     const response = await axios.get<UntappdBeerSearchResult>(
       `${UNTAPPED_API_BASE}${UNTAPPED_API_SEARCH}`,
       {
         params: {
           q: query,
-          client_id: UNTAPPED_API_CLIENT_ID,
-          client_secret: UNTAPPED_API_CLIENT_SECRET,
+          client_id: config.untappd.clientId,
+          client_secret: config.untappd.clientSecret,
         },
       },
     );
