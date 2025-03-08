@@ -4,6 +4,16 @@ import { z } from "zod";
 import { getBeerSearch } from "./api/getBeerSearch.js";
 import { formatUntappdBeerSearchResult } from "./libs/format.js";
 
+import dotenv from "dotenv";
+dotenv.config();
+
+export const config = {
+  untappd: {
+    clientId: process.env.UNTAPPED_API_CLIENT_ID,
+    clientSecret: process.env.UNTAPPED_API_CLIENT_SECRET,
+  },
+};
+
 // Create server instance
 const server = new McpServer({
   name: "untapped",

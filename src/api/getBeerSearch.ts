@@ -2,7 +2,7 @@ import axios from "axios";
 import { UNTAPPED_API_SEARCH, UNTAPPED_API_BASE } from "../constants.js";
 import { isUntappdApiError } from "../libs/guards.js";
 import { UntappdBeerSearchResult } from "../types/untappedApi.js";
-import { config } from "../config.js";
+import { config } from "../index.js";
 
 export async function getBeerSearch(query: string) {
   try {
