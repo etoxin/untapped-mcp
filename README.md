@@ -2,16 +2,25 @@
 
 A Untapped MCP server to be used with claude.
 
-## Set the following environment vars
+## Setup
 
-#### Untapped Client ID
+### Get API Key
 
-```
-UNTAPPED_API_CLIENT_ID
-```
+### Usage with Claude Desktop
 
-#### Untapped Client Secret
+Add the following to your `claude_desktop_config.json`:
 
-```
-UNTAPPED_API_CLIENT_SECRET
+```json
+{
+  "mcpServers": {
+    "beerSearch": {
+      "command": "node",
+      "args": ["/Users/adamlusted/projects/untapped-mcp/build/index.js"],
+      "env": {
+        "UNTAPPED_API_CLIENT_ID": "<YOUR_CLIENT_ID>",
+        "UNTAPPED_API_CLIENT_SECRET": "<YOUR_CLIENT_SECRET>"
+      }
+    }
+  }
+}
 ```
