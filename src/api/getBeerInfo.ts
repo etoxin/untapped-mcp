@@ -1,18 +1,26 @@
+import axios from "axios";
 import { UNTAPPED_API_BASE, UNTAPPED_API_INFO } from "../constants.js";
 import { isUntappdApiError } from "../libs/guards.js";
 import { UntappdBeerInfoResult } from "../types/untappedApi.js";
 import { config } from "../index.js";
 
-export async function GetBeerInfo<T>(bid: string) {
+export async function GetBeerInfo(bid: string) {
   try {
-    const response = await fetch(
-      `${UNTAPPED_API_BASE}${UNTAPPED_API_INFO}/${bid}?client_id=${config.untappd.clientId}&client_secret=${config.untappd.clientSecret}`,
+    const response = await axios.get<UntappdBeerInfoResult>(
+      `${UNTAPPED_API_BASE}${UNTAPPED_API_INFO}/${bid}`,
+      {
+        params: {
+          client_id: config.untappd.clientId,
+          client_secret: config.untappd.clientSecret,
+        },
+      },
     );
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-    return (await response.json()) as UntappdBeerInfoResult;
+
+    return response.data;
   } catch (e: unknown) {
+    if (axios.isAxiosError(e) && e.response) {
+      throw new Error(`HTTP error! status: ${e.response.status}`);
+    }
     if (e instanceof Error) {
       return e.message;
     }

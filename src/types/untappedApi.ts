@@ -183,7 +183,7 @@ interface UntappdVintages {
 }
 
 // Complete beer info
-interface UntappdBeerInfo extends UntappdBeer {
+export interface UntappdBeerInfo extends UntappdBeer {
   stats: UntappdBeerStats;
   brewery: UntappdBrewery;
   media: UntappdMedia;

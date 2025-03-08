@@ -1,11 +1,12 @@
 import {
+  UntappdBeerInfo,
+  UntappdBeerInfoResult,
   UntappdBeerItem,
   UntappdBeerSearchResult,
 } from "../types/untappedApi.js";
 
 export function formatUntappdBeerItem(beerItem: UntappdBeerItem): string {
   return [
-    "+++ start of UntappdBeerItem +++",
     `Basic beer item properties`,
     `---`,
     `checkin_count: ${beerItem.checkin_count}`,
@@ -115,7 +116,139 @@ export function formatUntappdBeerItem(beerItem: UntappdBeerItem): string {
     ...(beerItem.brewery.location?.lng !== undefined
       ? [`longitude: ${beerItem.brewery.location.lng}`]
       : []),
-    "+++ End of UntappdBeerItem +++",
+    "+++ End",
+  ].join("\n");
+}
+
+export function formatUntappdBeerInfo(beerInfo: UntappdBeerInfo): string {
+  return [
+    `Beer Information`,
+    `---`,
+    `bid: ${beerInfo.bid}`,
+    `beer_name: ${beerInfo.beer_name}`,
+    `beer_label: ${beerInfo.beer_label}`,
+    `beer_abv: ${beerInfo.beer_abv}`,
+    `beer_ibu: ${beerInfo.beer_ibu}`,
+    `beer_description: ${beerInfo.beer_description}`,
+    `created_at: ${beerInfo.created_at}`,
+    `beer_style: ${beerInfo.beer_style}`,
+    `auth_rating: ${beerInfo.auth_rating}`,
+    `wish_list: ${beerInfo.wish_list}`,
+
+    `Optional Beer Properties`,
+    `---`,
+    ...(beerInfo.in_production !== undefined
+      ? [`in_production: ${beerInfo.in_production}`]
+      : []),
+    ...(beerInfo.beer_slug ? [`beer_slug: ${beerInfo.beer_slug}`] : []),
+    ...(beerInfo.beer_style_id
+      ? [`beer_style_id: ${beerInfo.beer_style_id}`]
+      : []),
+    ...(beerInfo.beer_active !== undefined
+      ? [`beer_active: ${beerInfo.beer_active}`]
+      : []),
+    ...(beerInfo.is_in_production !== undefined
+      ? [`is_in_production: ${beerInfo.is_in_production}`]
+      : []),
+    ...(beerInfo.is_vintage !== undefined
+      ? [`is_vintage: ${beerInfo.is_vintage}`]
+      : []),
+    ...(beerInfo.is_variant !== undefined
+      ? [`is_variant: ${beerInfo.is_variant}`]
+      : []),
+    ...(beerInfo.is_homebrew !== undefined
+      ? [`is_homebrew: ${beerInfo.is_homebrew}`]
+      : []),
+    ...(beerInfo.rating_count !== undefined
+      ? [`rating_count: ${beerInfo.rating_count}`]
+      : []),
+    ...(beerInfo.rating_score !== undefined
+      ? [`rating_score: ${beerInfo.rating_score}`]
+      : []),
+
+    `Beer Stats`,
+    `---`,
+    `total_count: ${beerInfo.stats.total_count}`,
+    `monthly_count: ${beerInfo.stats.monthly_count}`,
+    `total_user_count: ${beerInfo.stats.total_user_count}`,
+    `user_count: ${beerInfo.stats.user_count}`,
+
+    `Brewery Information`,
+    `---`,
+    `brewery_id: ${beerInfo.brewery.brewery_id}`,
+    `brewery_name: ${beerInfo.brewery.brewery_name}`,
+    `brewery_label: ${beerInfo.brewery.brewery_label}`,
+    `country_name: ${beerInfo.brewery.country_name}`,
+
+    `Optional Brewery Properties`,
+    `---`,
+    ...(beerInfo.brewery.brewery_slug
+      ? [`brewery_slug: ${beerInfo.brewery.brewery_slug}`]
+      : []),
+    ...(beerInfo.brewery.brewery_active !== undefined
+      ? [`brewery_active: ${beerInfo.brewery.brewery_active}`]
+      : []),
+    ...(beerInfo.brewery.beer_count !== undefined
+      ? [`brewery_beer_count: ${beerInfo.brewery.beer_count}`]
+      : []),
+
+    `Brewery Contact Information`,
+    `---`,
+    ...(beerInfo.brewery.contact?.twitter
+      ? [`brewery_twitter: ${beerInfo.brewery.contact.twitter}`]
+      : []),
+    ...(beerInfo.brewery.contact?.facebook
+      ? [`brewery_facebook: ${beerInfo.brewery.contact.facebook}`]
+      : []),
+    ...(beerInfo.brewery.contact?.instagram
+      ? [`brewery_instagram: ${beerInfo.brewery.contact.instagram}`]
+      : []),
+    ...(beerInfo.brewery.contact?.url
+      ? [`brewery_url: ${beerInfo.brewery.contact.url}`]
+      : []),
+
+    `Brewery Location`,
+    `---`,
+    ...(beerInfo.brewery.location?.brewery_city
+      ? [`brewery_city: ${beerInfo.brewery.location.brewery_city}`]
+      : []),
+    ...(beerInfo.brewery.location?.brewery_state
+      ? [`brewery_state: ${beerInfo.brewery.location.brewery_state}`]
+      : []),
+    ...(beerInfo.brewery.location?.venue_address
+      ? [`venue_address: ${beerInfo.brewery.location.venue_address}`]
+      : []),
+    ...(beerInfo.brewery.location?.venue_city
+      ? [`venue_city: ${beerInfo.brewery.location.venue_city}`]
+      : []),
+    ...(beerInfo.brewery.location?.venue_state
+      ? [`venue_state: ${beerInfo.brewery.location.venue_state}`]
+      : []),
+    ...(beerInfo.brewery.location?.lat !== undefined
+      ? [`latitude: ${beerInfo.brewery.location.lat}`]
+      : []),
+    ...(beerInfo.brewery.location?.lng !== undefined
+      ? [`longitude: ${beerInfo.brewery.location.lng}`]
+      : []),
+
+    `Media Information`,
+    `---`,
+    `media_count: ${beerInfo.media.count}`,
+
+    `Similar Beers`,
+    `---`,
+    `similar_beers_count: ${beerInfo.similar.count}`,
+
+    `Friends Information`,
+    `---`,
+    `friends_count: ${beerInfo.friends.count}`,
+
+    `Vintages Information`,
+    `---`,
+    `vintages_count: ${beerInfo.vintages.count}`,
+    ...(beerInfo.vintages.count > 0 ? [`Has vintage versions available`] : []),
+
+    `+++ End`,
   ].join("\n");
 }
 
@@ -129,4 +262,10 @@ export function formatUntappdBeerSearchResult(
   });
 
   return payload.join("\n");
+}
+
+export function formatUntappdBeerInfoResult(
+  result: UntappdBeerInfoResult,
+): string {
+  return formatUntappdBeerInfo(result.response.beer);
 }

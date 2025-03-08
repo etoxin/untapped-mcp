@@ -13,7 +13,7 @@ Add the following to your `claude_desktop_config.json`:
 ```json
 {
   "mcpServers": {
-    "beerSearch": {
+    "Untappd": {
       "command": "node",
       "args": ["/Users/adamlusted/projects/untapped-mcp/build/index.js"],
       "env": {

@@ -2,8 +2,9 @@ import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { z } from "zod";
 import { getBeerSearch } from "./api/getBeerSearch.js";
-import { formatUntappdBeerSearchResult } from "./libs/format.js";
+import { formatUntappdBeerInfoResult, formatUntappdBeerSearchResult, } from "./libs/format.js";
 import dotenv from "dotenv";
+import { GetBeerInfo } from "./api/getBeerInfo.js";
 dotenv.config();
 export const config = {
     untappd: {
@@ -17,7 +18,7 @@ const server = new McpServer({
     version: "1.0.0",
 });
 // Register untapped tools
-server.tool("beer-search", "Search beers on untapped", {
+server.tool("Beer_Search", "Search beers on untapped", {
     beer: z.string().describe("The name of the beer you want to search"),
 }, async ({ beer }) => {
     const beersData = await getBeerSearch(beer);
@@ -47,6 +48,43 @@ server.tool("beer-search", "Search beers on untapped", {
             {
                 type: "text",
                 text: formattedBeerData,
+            },
+        ],
+    };
+});
+// Register untapped tools
+server.tool("Beer_Info", "Get detailed info of a beer.", {
+    bid: z
+        .string()
+        .describe("Beer ID (string): The 'bid' can be retrieved from 'Beer Search'."),
+}, async ({ bid }) => {
+    const beerInfoData = await GetBeerInfo(bid);
+    if (!beerInfoData) {
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: "Failed to retrieve untapped beer info data.",
+                },
+            ],
+        };
+    }
+    if (typeof beerInfoData === "string") {
+        return {
+            content: [
+                {
+                    type: "text",
+                    text: `Failed to retrieve untapped beer info data: ${beerInfoData}`,
+                },
+            ],
+        };
+    }
+    const formattedBeerInfoData = formatUntappdBeerInfoResult(beerInfoData);
+    return {
+        content: [
+            {
+                type: "text",
+                text: formattedBeerInfoData,
             },
         ],
     };
