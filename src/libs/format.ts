@@ -3,6 +3,7 @@ import {
   UntappdBeerInfoResult,
   UntappdBeerItem,
   UntappdBeerSearchResult,
+  UntappdMediaItem,
 } from "../types/untappedApi.js";
 
 export function formatUntappdBeerItem(beerItem: UntappdBeerItem): string {
@@ -133,7 +134,6 @@ export function formatUntappdBeerInfo(beerInfo: UntappdBeerInfo): string {
     `created_at: ${beerInfo.created_at}`,
     `beer_style: ${beerInfo.beer_style}`,
     `auth_rating: ${beerInfo.auth_rating}`,
-    `wish_list: ${beerInfo.wish_list}`,
 
     `Optional Beer Properties`,
     `---`,
@@ -185,27 +185,6 @@ export function formatUntappdBeerInfo(beerInfo: UntappdBeerInfo): string {
     ...(beerInfo.brewery.brewery_slug
       ? [`brewery_slug: ${beerInfo.brewery.brewery_slug}`]
       : []),
-    ...(beerInfo.brewery.brewery_active !== undefined
-      ? [`brewery_active: ${beerInfo.brewery.brewery_active}`]
-      : []),
-    ...(beerInfo.brewery.beer_count !== undefined
-      ? [`brewery_beer_count: ${beerInfo.brewery.beer_count}`]
-      : []),
-
-    `Brewery Contact Information`,
-    `---`,
-    ...(beerInfo.brewery.contact?.twitter
-      ? [`brewery_twitter: ${beerInfo.brewery.contact.twitter}`]
-      : []),
-    ...(beerInfo.brewery.contact?.facebook
-      ? [`brewery_facebook: ${beerInfo.brewery.contact.facebook}`]
-      : []),
-    ...(beerInfo.brewery.contact?.instagram
-      ? [`brewery_instagram: ${beerInfo.brewery.contact.instagram}`]
-      : []),
-    ...(beerInfo.brewery.contact?.url
-      ? [`brewery_url: ${beerInfo.brewery.contact.url}`]
-      : []),
 
     `Brewery Location`,
     `---`,
@@ -248,6 +227,48 @@ export function formatUntappdBeerInfo(beerInfo: UntappdBeerInfo): string {
     `vintages_count: ${beerInfo.vintages.count}`,
     ...(beerInfo.vintages.count > 0 ? [`Has vintage versions available`] : []),
 
+    "Media Information",
+    Array.isArray(beerInfo.media.items)
+      ? beerInfo.media.items.map((m) => formatUntappdMediaItem(m))
+      : formatUntappdMediaItem(beerInfo.media.items),
+    `+++ End`,
+  ].join("\n");
+}
+
+export function formatUntappdMediaItem(item: UntappdMediaItem): string {
+  return [
+    `Media Item Information`,
+    `---`,
+    `created_at: ${item.created_at}`,
+
+    `Beer Information`,
+    `---`,
+    `bid: ${item.beer.bid}`,
+    `beer_name: ${item.beer.beer_name}`,
+    `beer_style: ${item.beer.beer_style}`,
+    `beer_abv: ${item.beer.beer_abv}`,
+
+    `Brewery Information`,
+    `---`,
+    `brewery_id: ${item.brewery.brewery_id}`,
+    `brewery_name: ${item.brewery.brewery_name}`,
+    `country_name: ${item.brewery.country_name}`,
+
+    `Venue Information`,
+    `---`,
+    ...(Array.isArray(item.venue) && item.venue.length > 0
+      ? [
+          `venue_id: ${item.venue[0].venue_id}`,
+          `venue_name: ${item.venue[0].venue_name}`,
+          `primary_category: ${item.venue[0].primary_category}`,
+          ...(item.venue[0].location?.venue_city
+            ? [`venue_city: ${item.venue[0].location.venue_city}`]
+            : []),
+          ...(item.venue[0].location?.venue_state
+            ? [`venue_state: ${item.venue[0].location.venue_state}`]
+            : []),
+        ]
+      : [`No venue information available`]),
     `+++ End`,
   ].join("\n");
 }

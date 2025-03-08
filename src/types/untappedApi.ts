@@ -124,7 +124,7 @@ interface UntappdPhoto {
 }
 
 // Media item for beer
-interface UntappdMediaItem {
+export interface UntappdMediaItem {
   photo_id: number;
   photo: UntappdPhoto;
   created_at: string;
@@ -136,7 +136,7 @@ interface UntappdMediaItem {
 }
 
 // Media section
-interface UntappdMedia {
+export interface UntappdMedia {
   count: number;
   items: UntappdMediaItem | UntappdMediaItem[]; // API inconsistently returns object or array
 }
