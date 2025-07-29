@@ -15,7 +15,7 @@ Add the following to your `claude_desktop_config.json`:
   "mcpServers": {
     "Untappd": {
       "command": "node",
-      "args": ["/Users/adamlusted/projects/untapped-mcp/build/index.js"],
+      "args": ["/Users/user/projects/untapped-mcp/build/index.js"],
       "env": {
         "UNTAPPED_API_CLIENT_ID": "<YOUR_CLIENT_ID>",
         "UNTAPPED_API_CLIENT_SECRET": "<YOUR_CLIENT_SECRET>"
